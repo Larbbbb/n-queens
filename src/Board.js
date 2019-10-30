@@ -79,11 +79,28 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
+      var row = this.get(rowIndex);
+      var count = 0;
+      for (var i = 0; i < row.length; i++) {
+        if (row[i] === 1) {
+          count++;
+        }
+      }
+      if (count > 1) {
+        return true;
+      }
       return false; // fixme
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
+      // debugger;
+      for (var i = 0; i < this.attributes.n; i++) {
+        var isTrue = this.hasRowConflictAt(i);
+        if (isTrue) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
@@ -94,11 +111,27 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
+      var count = 0;
+      for (var i = 0; i < this.attributes.n; i++) {
+        var row = this.get(i);
+        if (row[colIndex] === 1) {
+          count++;
+        }
+      }
+      if (count > 1) {
+        return true;
+      }
       return false; // fixme
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
+      for (var i = 0; i < this.attributes.n; i++) {
+        var isTrue = this.hasColConflictAt(i);
+        if (isTrue) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
@@ -109,11 +142,42 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
+      var rowIndex = majorDiagonalColumnIndexAtFirstRow[0];
+      var colIndex = majorDiagonalColumnIndexAtFirstRow[1];
+      var count = 0;
+      for (var i = 0; i < this.attributes.n - (rowIndex + colIndex); i++) {
+        var row = this.get(rowIndex + i);
+        if (row[colIndex + i] === 1) {
+          count++;
+        }
+      }
+      if (count > 1) {
+        return true;
+      }
       return false; // fixme
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
+      var isTrue;
+      for (var i = this.attributes.n - 2; i >= 0; i--) {
+        if (i === 0) {
+          for (var j = 0; j < this.attributes.n - 2; j++) {
+            isTrue = this.hasMajorDiagonalConflictAt([i, j]);
+            if (isTrue) {
+              return true;
+            }
+          }
+        }
+        isTrue = this.hasMajorDiagonalConflictAt([i, 0]);
+        if (isTrue) {
+          return true;
+        }
+        // var isTrue = this.hasMajorDiagnolAt([]);
+        // if (isTrue) {
+        //   return true;
+        // }
+      }
       return false; // fixme
     },
 
@@ -124,11 +188,43 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
+      var rowIndex = minorDiagonalColumnIndexAtFirstRow[0];
+      var colIndex = minorDiagonalColumnIndexAtFirstRow[1];
+      var count = 0;
+      debugger;
+      for (var i = 0; i < Math.abs(this.attributes.n - (rowIndex + Math.abs(colIndex - this.attributes.n + 1))); i++) {
+        var row = this.get(rowIndex + i);
+        if (row[colIndex - i] === 1) {
+          count++;
+        }
+      }
+      if (count > 1) {
+        return true;
+      }
       return false; // fixme
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
+      var isTrue;
+      for (var i = 1; i < this.attributes.n; i++) {
+        if (i === this.attributes.n - 1) {
+          for (var j = 0; j < this.attributes.n - 1; j++) {
+            isTrue = this.hasMinorDiagonalConflictAt([j, i]);
+            if (isTrue) {
+              return true;
+            }
+          }
+        }
+        isTrue = this.hasMinorDiagonalConflictAt([0, i]);
+        if (isTrue) {
+          return true;
+        }
+        // var isTrue = this.hasMajorDiagnolAt([]);
+        // if (isTrue) {
+        //   return true;
+        // }
+      }
       return false; // fixme
     }
 
