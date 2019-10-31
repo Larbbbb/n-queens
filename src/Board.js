@@ -62,14 +62,6 @@
     },
 
 
-/*
-         _             _     _
-     ___| |_ __ _ _ __| |_  | |__   ___ _ __ ___ _
-    / __| __/ _` | '__| __| | '_ \ / _ \ '__/ _ (_)
-    \__ \ || (_| | |  | |_  | | | |  __/ | |  __/_
-    |___/\__\__,_|_|   \__| |_| |_|\___|_|  \___(_)
-
- */
     /*=========================================================================
     =                 TODO: fill in these Helper Functions                    =
     =========================================================================*/
@@ -191,7 +183,6 @@
       var rowIndex = minorDiagonalColumnIndexAtFirstRow[0];
       var colIndex = minorDiagonalColumnIndexAtFirstRow[1];
       var count = 0;
-      debugger;
       for (var i = 0; i < Math.abs(this.attributes.n - (rowIndex + Math.abs(colIndex - this.attributes.n + 1))); i++) {
         var row = this.get(rowIndex + i);
         if (row[colIndex - i] === 1) {
