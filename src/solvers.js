@@ -32,13 +32,15 @@ window.findNRooksSolution = function(n) {
         currentRow[j] = 1;
         usedColumns.push(j);
 
-        recurse(rowIndex + 1);
 
         if (board.hasAnyRooksConflicts()) {
           currentRow[j] = 0;
           usedColumns.filter(num => num !== j);
           continue;
-        } else {
+        }
+        recurse(rowIndex + 1);
+
+        if (!board.hasAnyRooksConflicts()) {
           solution.unshift(currentRow);
         }
       }
@@ -70,10 +72,54 @@ window.countNRooksSolutions = function(n) {
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  var solution = undefined; //fixme
 
+  if (n === 0) {
+    return [];
+  }
 
+  var solution = []; //fixme
+  var board = new Board ({'n': n });
+  var usedColumns = [];
 
+  var recurse = function(rowIndex) {
+    var currentRow = board.get(rowIndex);
+    for (var j = 0; j < n; j++) {
+      if (!usedColumns.includes(j)) {
+
+        currentRow[j] = 1;
+        usedColumns.push(j);
+
+        if (board.hasAnyQueensConflicts()) {
+          currentRow[j] = 0;
+          usedColumns = usedColumns.filter(num => num !== j);
+          continue;
+        }
+
+        if (rowIndex < n - 1) {
+          recurse(rowIndex + 1);
+
+          var sumOfnextRow = board.get(rowIndex + 1).reduce((a, b) => a + b, 0);
+          if (sumOfnextRow === 0) {
+            currentRow[j] = 0;
+            usedColumns = usedColumns.filter(num => num !== j);
+          }
+        }
+      }
+    }
+
+    // if (!board.hasAnyQueensConflicts()) {
+    //   solution.unshift(currentRow);
+    // }
+
+  };
+
+  recurse(0);
+  
+  if (!board.hasAnyQueensConflicts()) {
+    for (var i = 0; i < n; i++) {
+      solution.push(board.get(i));
+    }
+  }
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution;
 };

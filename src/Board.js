@@ -154,7 +154,7 @@
       var isTrue;
       for (var i = this.attributes.n - 2; i >= 0; i--) {
         if (i === 0) {
-          for (var j = 0; j < this.attributes.n - 2; j++) {
+          for (var j = 0; j < this.attributes.n - 1; j++) {
             isTrue = this.hasMajorDiagonalConflictAt([i, j]);
             if (isTrue) {
               return true;
