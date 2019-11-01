@@ -156,9 +156,11 @@ window.countNQueensSolutions = function(n) {
 
     for (var i = 0; i < n; i++) {
       matrix[numPieces][i] = 1;
-      recurse(matrix);
+      var board = new Board(matrix);
+      if (!board.hasAnyQueensConflicts()) {
+        recurse(matrix);
+      }
       matrix[numPieces][i] = 0;
-
     }
 
   };
